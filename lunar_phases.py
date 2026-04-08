@@ -8,9 +8,9 @@ LUNAR_PHASE_LENGTH = 29.53
 LUNAR_PHASE_HALFPOINT = 14.765
 
 def lunar_phase():
+    """Function calculates where today falls inside a lunar phase."""
     current_julian_date = time.time() / SECONDS_IN_DAY + JULIAN_DATE_UNIX_EPOCH 
     phase_calculation = (current_julian_date - JULIAN_DATE_MARCH_NEW_MOON) % LUNAR_PHASE_LENGTH
-    """Function calculates where today falls inside a lunar phase."""
     return phase_calculation
 
 phase = lunar_phase()
