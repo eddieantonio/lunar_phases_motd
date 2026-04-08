@@ -162,28 +162,13 @@ day2 = "day" if cntdwn2 == 1 else "days"
 # print(phase)
 
 # Assigning a physical phase to the calculated date 
-# printing ASCII, phase name, and countdown to next new/full moon
-today_is_style = "normal"
-countdown = None
-if 0 < phase <= 6.375 :
-    phase_idx = 0
-elif 6.375 < phase <= 7.375 :
-    phase_idx = 1
-    name = "FIRST QUARTER"
-elif 7.375 < phase <= 13.75 :
-    phase_idx = 2
-elif 13.75 < phase <= 14.75 :
-    phase_idx = 3
-elif 14.75 < phase <= 21.125 :
-    phase_idx = 4
-elif 21.125 < phase <= 22.125 :
-    phase_idx = 5
-elif 22.125 < phase <= 28.5 :
-    phase_idx = 6
-else:
-    phase_idx = 7
+lo = 0
+lo += phase >= PHASE_INFO[lo + 3]["upper_boundary"] and 4
+lo += phase >= PHASE_INFO[lo + 1]["upper_boundary"] and 2
+lo += phase >= PHASE_INFO[lo]["upper_boundary"] and 1
+info = PHASE_INFO[lo]
 
-info = PHASE_INFO[phase_idx]
+# printing ASCII, phase name, and countdown to next new/full moon
 name = info["name"]
 
 # Print the moon!
