@@ -149,6 +149,11 @@ PHASE_INFO = [
     },
 ]
 
+def days_plural(number):
+    word = "day" if number == 1 else "days"
+    return f"{number} {word}"
+
+
 # Remove the # if you want to print the output of the function above
 # print(phase)
 
@@ -180,9 +185,7 @@ countdown = info.get("countdown")
 if countdown == "to-full-moon":
     # Calculating days to next full/new moon
     cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
-    day = "day" if cntdwn == 1 else "days"
-    print(f"{cntdwn} {day} until next Full Moon")
+    print(f"{days_plural(cntdwn)} until next Full Moon")
 elif countdown == "to-new-moon":
     cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
-    day2 = "day" if cntdwn2 == 1 else "days"
-    print(f"{cntdwn2} {day2} until next New Moon")
+    print(f"{days_plural(cntdwn2)} until next New Moon")
