@@ -116,30 +116,42 @@ day2 = "day" if cntdwn2 == 1 else "days"
 
 # Assigning a physical phase to the calculated date 
 # printing ASCII, phase name, and countdown to next new/full moon
+today_is_style = "normal"
+countdown = None
 if 0 < phase <= 6.375 :
     name = "WAXING CRESCENT"
     actions = {"today-is", "count-to-full-moon"}
+    countdown = "to-full-moon"
 elif 6.375 < phase <= 7.375 :
     name = "FIRST QUARTER"
     actions = {"today-is-quarter", "count-to-full-moon"}
+    today_is_style = "quarter"
+    countdown = "to-full-moon"
 elif 7.375 < phase <= 13.75 :
     name = "WAXING GIBBOUS"
     actions = {"today-is", "count-to-full-moon"}
+    countdown = "to-full-moon"
 elif 13.75 < phase <= 14.75 :
     name = "FULL MOON"
     actions = {"excitement"}
+    today_is_style = "special"
 elif 14.75 < phase <= 21.125 :
     name = "WANING GIBBOUS"
     actions = {"today-is", "count-to-new-moon"}
+    countdown = "to-new-moon"
 elif 21.125 < phase <= 22.125 :
     name = "LAST QUARTER"
     actions = {"today-is-quarter", "count-to-new-moon"}
+    today_is_style = "quarter"
+    countdown = "to-new-moon"
 elif 22.125 < phase <= 28.5 :
     name = "WANING CRESCENT"
     actions = {"today-is", "count-to-new-moon"}
+    countdown = "to-new-moon"
 else:
     name = "NEW MOON"
     actions = {"excitement"}
+    today_is_style = "special"
 
 ascii_art = phases_dict[name]
 print(ascii_art)
