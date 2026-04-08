@@ -70,7 +70,7 @@ jgs   `':::''
     `::::::' .'  
 jgs   `'::'-'
  """, 
- "THIRD QUARTER" : 
+ "LAST QUARTER" : 
  """
        _..._     
      .::::  `.    
@@ -102,6 +102,53 @@ Waning crescent: 22.125-28.5
 New moon: 28.5-29.5
 """
 
+PHASE_INFO = [
+    {
+        "name": "WAXING CRESCENT",
+        "upper_boundary": 6.375,
+        "countdown": "to-full-moon",
+    },
+    {
+        "name": "FIRST QUARTER",
+        "upper_boundary": 7.375,
+        "countdown": "count-to-full-moon",
+        "today_is": "quarter"
+    },
+    {
+        "name": "WAXING GIBBOUS",
+        "upper_boundary": 13.75,
+        "countdown": "count-to-full-moon",
+    },
+    {
+        "name": "FULL MOON",
+        "upper_boundary": 14.75,
+        "action": "full-moon",
+        "today_is": "special"
+    },
+    {
+        "name": "WANING GIBBOUS",
+        "upper_boundary": 21.125,
+        "countdown": "count-to-new-moon",
+    },
+    {
+        "name": "LAST QUARTER",
+        "upper_boundary": 22.125,
+        "countdown": "count-to-new-moon",
+        "today_is": "quarter"
+    },
+    {
+        "name": "WANING CRESCENT",
+        "upper_boundary": 28.5,
+        "countdown": "count-to-new-moon",
+    },
+    {
+        "name": "NEW MOON",
+        "upper_boundary": LUNAR_PHASE_LENGTH,
+        "countdown": "new-moon",
+        "today_is": "special"
+    },
+]
+
 # Calculating days to next full/new moon
 cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
 cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
@@ -119,36 +166,32 @@ day2 = "day" if cntdwn2 == 1 else "days"
 today_is_style = "normal"
 countdown = None
 if 0 < phase <= 6.375 :
-    name = "WAXING CRESCENT"
-    countdown = "to-full-moon"
+    phase_idx = 0
 elif 6.375 < phase <= 7.375 :
+    phase_idx = 1
     name = "FIRST QUARTER"
-    today_is_style = "quarter"
-    countdown = "to-full-moon"
 elif 7.375 < phase <= 13.75 :
-    name = "WAXING GIBBOUS"
-    countdown = "to-full-moon"
+    phase_idx = 2
 elif 13.75 < phase <= 14.75 :
-    name = "FULL MOON"
-    today_is_style = "special"
+    phase_idx = 3
 elif 14.75 < phase <= 21.125 :
-    name = "WANING GIBBOUS"
-    countdown = "to-new-moon"
+    phase_idx = 4
 elif 21.125 < phase <= 22.125 :
-    name = "LAST QUARTER"
-    today_is_style = "quarter"
-    countdown = "to-new-moon"
+    phase_idx = 5
 elif 22.125 < phase <= 28.5 :
-    name = "WANING CRESCENT"
-    countdown = "to-new-moon"
+    phase_idx = 6
 else:
-    name = "NEW MOON"
-    today_is_style = "special"
+    phase_idx = 7
 
+info = PHASE_INFO[phase_idx]
+name = info["name"]
+
+# Print the moon!
 ascii_art = phases_dict[name]
 print(ascii_art)
 
 # Print the first line of the message:
+today_is_style = info.get("today_is", "normal")
 if today_is_style == "normal":
     print(f"Today the moon is a {name}")
 elif today_is_style == "quarter":
@@ -157,6 +200,7 @@ elif today_is_style == "special":
     print(f"Today is the {name}!")
 
 # Print the countdown (if present)
+countdown = info.get("countdown")
 if countdown == "to-full-moon":
     print(f"{cntdwn} {day} until next Full Moon")
 elif countdown == "to-new-moon":
