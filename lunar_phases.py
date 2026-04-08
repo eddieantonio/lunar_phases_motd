@@ -117,22 +117,23 @@ day2 = "day" if cntdwn2 == 1 else "days"
 # Assigning a physical phase to the calculated date 
 # printing ASCII, phase name, and countdown to next new/full moon
 if 0 < phase <= 6.375 :
-    ascii_art = phases_dict["WAXING CRESCENT"]
+    name = "WAXING CRESCENT"
 elif 6.375 < phase <= 7.375 :
-    ascii_art = phases_dict["FIRST QUARTER"]
+    name = "FIRST QUARTER"
 elif 7.375 < phase <= 13.75 :
-    ascii_art = phases_dict["WAXING GIBBOUS"]
+    name = "WAXING GIBBOUS"
 elif 13.75 < phase <= 14.75 :
-    ascii_art = phases_dict["FULL MOON"]
+    name = "FULL MOON"
 elif 14.75 < phase <= 21.125 :
-    ascii_art = phases_dict["WANING GIBBOUS"]
+    name = "WANING GIBBOUS"
 elif 21.125 < phase <= 22.125 :
-    ascii_art = phases_dict["LAST QUARTER"]
+    name = "LAST QUARTER"
 elif 22.125 < phase <= 28.5 :
-    ascii_art = phases_dict["WANING CRESCENT"]
+    name = "WANING CRESCENT"
 else:
-    ascii_art = phases_dict["NEW MOON"]
+    name = "NEW MOON"
 
+ascii_art = phases_dict[name]
 print(ascii_art)
 
 if 0 < phase <= 6.375 :
