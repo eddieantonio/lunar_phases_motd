@@ -13,7 +13,6 @@ def lunar_phase():
     """Function calculates where today falls inside a lunar phase."""
     return phase_calculation
 
-phase = lunar_phase()
 
 phases_dict = {
 "NEW MOON" : 
@@ -157,35 +156,43 @@ def days_plural(number):
 # Remove the # if you want to print the output of the function above
 # print(phase)
 
-# Assigning a physical phase to the calculated date 
-lo = 0
-lo += phase >= PHASE_INFO[lo + 3]["upper_boundary"] and 4
-lo += phase >= PHASE_INFO[lo + 1]["upper_boundary"] and 2
-lo += phase >= PHASE_INFO[lo]["upper_boundary"] and 1
-info = PHASE_INFO[lo]
+def print_motd(phase=None):
+    if phase is None:
+        phase = lunar_phase()
 
-# printing ASCII, phase name, and countdown to next new/full moon
-name = info["name"]
+    # Assigning a physical phase to the calculated date 
+    lo = 0
+    lo += phase >= PHASE_INFO[lo + 3]["upper_boundary"] and 4
+    lo += phase >= PHASE_INFO[lo + 1]["upper_boundary"] and 2
+    lo += phase >= PHASE_INFO[lo]["upper_boundary"] and 1
+    info = PHASE_INFO[lo]
 
-# Print the moon!
-ascii_art = phases_dict[name]
-print(ascii_art)
+    # printing ASCII, phase name, and countdown to next new/full moon
+    name = info["name"]
 
-# Print the first line of the message:
-today_is_style = info.get("today_is", "normal")
-if today_is_style == "normal":
-    print(f"Today the moon is a {name}")
-elif today_is_style == "quarter":
-    print(f"Today the moon is starting its {name}")
-elif today_is_style == "special":
-    print(f"Today is the {name}!")
+    # Print the moon!
+    ascii_art = phases_dict[name]
+    print(ascii_art)
 
-# Print the countdown (if present)
-countdown = info.get("countdown")
-if countdown == "to-full-moon":
-    # Calculating days to next full/new moon
-    cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
-    print(f"{days_plural(cntdwn)} until next Full Moon")
-elif countdown == "to-new-moon":
-    cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
-    print(f"{days_plural(cntdwn2)} until next New Moon")
+    # Print the first line of the message:
+    today_is_style = info.get("today_is", "normal")
+    if today_is_style == "normal":
+        print(f"Today the moon is a {name}")
+    elif today_is_style == "quarter":
+        print(f"Today the moon is starting its {name}")
+    elif today_is_style == "special":
+        print(f"Today is the {name}!")
+
+    # Print the countdown (if present)
+    countdown = info.get("countdown")
+    if countdown == "to-full-moon":
+        # Calculating days to next full/new moon
+        cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
+        print(f"{days_plural(cntdwn)} until next Full Moon")
+    elif countdown == "to-new-moon":
+        cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
+        print(f"{days_plural(cntdwn2)} until next New Moon")
+
+
+if __name__ == "__main__":
+    print_motd()
