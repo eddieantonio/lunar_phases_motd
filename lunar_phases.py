@@ -137,24 +137,32 @@ ascii_art = phases_dict[name]
 print(ascii_art)
 
 if 0 < phase <= 6.375 :
-    print("Today the moon is a WAXING CRESCENT")
-    print(f"{cntdwn} {day} until next Full Moon")
+    actions = {"today-is", "count-to-full-moon"}
 elif 6.375 < phase <= 7.375 :
-    print("Today the moon is starting its FIRST QUARTER")
-    print(f"{cntdwn} {day} until next Full Moon")
+    actions = {"today-is-quarter", "count-to-full-moon"}
 elif 7.375 < phase <= 13.75 :
-    print("Today the moon is a WAXING GIBBOUS")
-    print(f"{cntdwn} {day} until next Full Moon")
+    actions = {"today-is", "count-to-full-moon"}
 elif 13.75 < phase <= 14.75 :
-    print("Today is the FULL MOON!")
+    actions = {"excitement"}
 elif 14.75 < phase <= 21.125 :
-    print("Today the moon is a WANING GIBBOUS")
-    print(f"{cntdwn2} {day2} until next New Moon")
+    actions = {"today-is", "count-to-new-moon"}
 elif 21.125 < phase <= 22.125 :
-    print("Today the moon is starting its LAST QUARTER")
-    print(f"{cntdwn2} {day2} until next New Moon")
+    actions = {"today-is-quarter", "count-to-new-moon"}
 elif 22.125 < phase <= 28.5 :
-    print("Today the moon is a WANING CRESCENT")
-    print(f"{cntdwn2} {day2} until next New Moon")
+    actions = {"today-is", "count-to-new-moon"}
 else:
-    print("Today is the NEW MOON!")
+    actions = {"excitement"}
+
+# Print the first line of the message:
+if "today-is" in actions:
+    print(f"Today the moon is a {name}")
+if "today-is-quarter" in actions:
+    print(f"Today the moon is starting its {name}")
+if "excitement" in actions:
+    print(f"Today is the {name}!")
+
+# Print the countdown (if present)
+if "count-to-full-moon" in actions:
+    print(f"{cntdwn} {day} until next Full Moon")
+if "count-to-new-moon" in actions:
+    print(f"{cntdwn2} {day2} until next New Moon")
