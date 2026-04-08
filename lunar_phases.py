@@ -118,40 +118,31 @@ day2 = "day" if cntdwn2 == 1 else "days"
 # printing ASCII, phase name, and countdown to next new/full moon
 if 0 < phase <= 6.375 :
     name = "WAXING CRESCENT"
+    actions = {"today-is", "count-to-full-moon"}
 elif 6.375 < phase <= 7.375 :
     name = "FIRST QUARTER"
+    actions = {"today-is-quarter", "count-to-full-moon"}
 elif 7.375 < phase <= 13.75 :
     name = "WAXING GIBBOUS"
+    actions = {"today-is", "count-to-full-moon"}
 elif 13.75 < phase <= 14.75 :
     name = "FULL MOON"
+    actions = {"excitement"}
 elif 14.75 < phase <= 21.125 :
     name = "WANING GIBBOUS"
+    actions = {"today-is", "count-to-new-moon"}
 elif 21.125 < phase <= 22.125 :
     name = "LAST QUARTER"
+    actions = {"today-is-quarter", "count-to-new-moon"}
 elif 22.125 < phase <= 28.5 :
     name = "WANING CRESCENT"
+    actions = {"today-is", "count-to-new-moon"}
 else:
     name = "NEW MOON"
+    actions = {"excitement"}
 
 ascii_art = phases_dict[name]
 print(ascii_art)
-
-if 0 < phase <= 6.375 :
-    actions = {"today-is", "count-to-full-moon"}
-elif 6.375 < phase <= 7.375 :
-    actions = {"today-is-quarter", "count-to-full-moon"}
-elif 7.375 < phase <= 13.75 :
-    actions = {"today-is", "count-to-full-moon"}
-elif 13.75 < phase <= 14.75 :
-    actions = {"excitement"}
-elif 14.75 < phase <= 21.125 :
-    actions = {"today-is", "count-to-new-moon"}
-elif 21.125 < phase <= 22.125 :
-    actions = {"today-is-quarter", "count-to-new-moon"}
-elif 22.125 < phase <= 28.5 :
-    actions = {"today-is", "count-to-new-moon"}
-else:
-    actions = {"excitement"}
 
 # Print the first line of the message:
 if "today-is" in actions:
