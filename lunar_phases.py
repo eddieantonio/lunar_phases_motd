@@ -149,15 +149,6 @@ PHASE_INFO = [
     },
 ]
 
-# Calculating days to next full/new moon
-cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
-cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
-
-# Assigning variable 'day' for propper grammar
-day = "day" if cntdwn == 1 else "days"
-day2 = "day" if cntdwn2 == 1 else "days"
-
-
 # Remove the # if you want to print the output of the function above
 # print(phase)
 
@@ -187,6 +178,11 @@ elif today_is_style == "special":
 # Print the countdown (if present)
 countdown = info.get("countdown")
 if countdown == "to-full-moon":
+    # Calculating days to next full/new moon
+    cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
+    day = "day" if cntdwn == 1 else "days"
     print(f"{cntdwn} {day} until next Full Moon")
 elif countdown == "to-new-moon":
+    cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
+    day2 = "day" if cntdwn2 == 1 else "days"
     print(f"{cntdwn2} {day2} until next New Moon")
