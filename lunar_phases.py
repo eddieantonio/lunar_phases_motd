@@ -117,32 +117,43 @@ day2 = "day" if cntdwn2 == 1 else "days"
 # Assigning a physical phase to the calculated date 
 # printing ASCII, phase name, and countdown to next new/full moon
 if 0 < phase <= 6.375 :
-    print(phases_dict["WAXING CRESCENT"])
+    ascii_art = phases_dict["WAXING CRESCENT"]
+elif 6.375 < phase <= 7.375 :
+    ascii_art = phases_dict["FIRST QUARTER"]
+elif 7.375 < phase <= 13.75 :
+    ascii_art = phases_dict["WAXING GIBBOUS"]
+elif 13.75 < phase <= 14.75 :
+    ascii_art = phases_dict["FULL MOON"]
+elif 14.75 < phase <= 21.125 :
+    ascii_art = phases_dict["WANING GIBBOUS"]
+elif 21.125 < phase <= 22.125 :
+    ascii_art = phases_dict["LAST QUARTER"]
+elif 22.125 < phase <= 28.5 :
+    ascii_art = phases_dict["WANING CRESCENT"]
+else:
+    ascii_art = phases_dict["NEW MOON"]
+
+print(ascii_art)
+
+if 0 < phase <= 6.375 :
     print("Today the moon is a WAXING CRESCENT")
     print(f"{cntdwn} {day} until next Full Moon")
 elif 6.375 < phase <= 7.375 :
-    print(phases_dict["FIRST QUARTER"])
     print("Today the moon is starting its FIRST QUARTER")
     print(f"{cntdwn} {day} until next Full Moon")
 elif 7.375 < phase <= 13.75 :
-    print(phases_dict["WAXING GIBBOUS"])
     print("Today the moon is a WAXING GIBBOUS")
     print(f"{cntdwn} {day} until next Full Moon")
 elif 13.75 < phase <= 14.75 :
-    print(phases_dict["FULL MOON"])
     print("Today is the FULL MOON!")
 elif 14.75 < phase <= 21.125 :
-    print(phases_dict["WANING GIBBOUS"])
     print("Today the moon is a WANING GIBBOUS")
     print(f"{cntdwn2} {day2} until next New Moon")
 elif 21.125 < phase <= 22.125 :
-    print(phases_dict["LAST QUARTER"])
     print("Today the moon is starting its LAST QUARTER")
     print(f"{cntdwn2} {day2} until next New Moon")
 elif 22.125 < phase <= 28.5 :
-    print(phases_dict["WANING CRESCENT"])
     print("Today the moon is a WANING CRESCENT")
     print(f"{cntdwn2} {day2} until next New Moon")
 else:
-    print(phases_dict["NEW MOON"])
     print("Today is the NEW MOON!")
