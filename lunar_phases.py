@@ -111,13 +111,13 @@ PHASE_INFO = [
     {
         "name": "FIRST QUARTER",
         "upper_boundary": 7.375,
-        "countdown": "count-to-full-moon",
+        "countdown": "to-full-moon",
         "today_is": "quarter"
     },
     {
         "name": "WAXING GIBBOUS",
         "upper_boundary": 13.75,
-        "countdown": "count-to-full-moon",
+        "countdown": "to-full-moon",
     },
     {
         "name": "FULL MOON",
@@ -128,18 +128,18 @@ PHASE_INFO = [
     {
         "name": "WANING GIBBOUS",
         "upper_boundary": 21.125,
-        "countdown": "count-to-new-moon",
+        "countdown": "to-new-moon",
     },
     {
         "name": "LAST QUARTER",
         "upper_boundary": 22.125,
-        "countdown": "count-to-new-moon",
+        "countdown": "to-new-moon",
         "today_is": "quarter"
     },
     {
         "name": "WANING CRESCENT",
         "upper_boundary": 28.5,
-        "countdown": "count-to-new-moon",
+        "countdown": "to-new-moon",
     },
     {
         "name": "NEW MOON",
