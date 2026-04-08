@@ -101,51 +101,54 @@ Waning crescent: 22.125-28.5
 New moon: 28.5-29.5
 """
 
+def no_countdown(phase):
+    pass # do nothing
+
+def countdown_to_full(phase):
+    cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
+    print(f"{days_plural(cntdwn)} until next Full Moon")
+
+
+def countdown_to_new(phase):
+    cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
+    print(f"{days_plural(cntdwn2)} until next New Moon")
+
+
+class Phase:
+    def __init__(self, name, upper_boundary, countdown=no_countdown):
+        self.name = name
+        self.upper_boundary = upper_boundary
+        self._countdown = countdown
+
+    def print_ascii_art(self):
+        print(phases_dict[self.name])
+
+    def print_today_is(self):
+        print(f"Today the moon is a {self.name}")
+
+    def print_countdown(self, phase):
+        self._countdown(phase)
+
+
+class QuarterMoon(Phase):
+    def print_today_is(self):
+        print(f"Today the moon is starting its {self.name}")
+
+
+class SpecialMoon(Phase):
+    def print_today_is(self):
+        print(f"Today is the {self.name}!")
+
+
 PHASE_INFO = [
-    {
-        "name": "WAXING CRESCENT",
-        "upper_boundary": 6.375,
-        "countdown": "to-full-moon",
-    },
-    {
-        "name": "FIRST QUARTER",
-        "upper_boundary": 7.375,
-        "countdown": "to-full-moon",
-        "today_is": "quarter"
-    },
-    {
-        "name": "WAXING GIBBOUS",
-        "upper_boundary": 13.75,
-        "countdown": "to-full-moon",
-    },
-    {
-        "name": "FULL MOON",
-        "upper_boundary": 14.75,
-        "action": "full-moon",
-        "today_is": "special"
-    },
-    {
-        "name": "WANING GIBBOUS",
-        "upper_boundary": 21.125,
-        "countdown": "to-new-moon",
-    },
-    {
-        "name": "LAST QUARTER",
-        "upper_boundary": 22.125,
-        "countdown": "to-new-moon",
-        "today_is": "quarter"
-    },
-    {
-        "name": "WANING CRESCENT",
-        "upper_boundary": 28.5,
-        "countdown": "to-new-moon",
-    },
-    {
-        "name": "NEW MOON",
-        "upper_boundary": LUNAR_PHASE_LENGTH,
-        "countdown": "new-moon",
-        "today_is": "special"
-    },
+    Phase("WAXING CRESCENT", 6.375, countdown=countdown_to_full),
+    QuarterMoon("FIRST QUARTER", 7.375, countdown=countdown_to_full),
+    Phase("WAXING GIBBOUS", 13.75, countdown=countdown_to_full),
+    SpecialMoon("FULL MOON", 14.75),
+    Phase("WANING GIBBOUS", 21.125, countdown=countdown_to_new),
+    QuarterMoon("LAST QUARTER", 22.125, countdown=countdown_to_new),
+    Phase("WANING CRESCENT", 28.5, countdown=countdown_to_new),
+    SpecialMoon("NEW MOON", LUNAR_PHASE_LENGTH),
 ]
 
 def days_plural(number):
@@ -162,36 +165,15 @@ def print_motd(phase=None):
 
     # Assigning a physical phase to the calculated date 
     lo = 0
-    lo += phase >= PHASE_INFO[lo + 3]["upper_boundary"] and 4
-    lo += phase >= PHASE_INFO[lo + 1]["upper_boundary"] and 2
-    lo += phase >= PHASE_INFO[lo]["upper_boundary"] and 1
+    lo += phase >= PHASE_INFO[lo + 3].upper_boundary and 4
+    lo += phase >= PHASE_INFO[lo + 1].upper_boundary and 2
+    lo += phase >= PHASE_INFO[lo + 0].upper_boundary and 1
     info = PHASE_INFO[lo]
 
     # printing ASCII, phase name, and countdown to next new/full moon
-    name = info["name"]
-
-    # Print the moon!
-    ascii_art = phases_dict[name]
-    print(ascii_art)
-
-    # Print the first line of the message:
-    today_is_style = info.get("today_is", "normal")
-    if today_is_style == "normal":
-        print(f"Today the moon is a {name}")
-    elif today_is_style == "quarter":
-        print(f"Today the moon is starting its {name}")
-    elif today_is_style == "special":
-        print(f"Today is the {name}!")
-
-    # Print the countdown (if present)
-    countdown = info.get("countdown")
-    if countdown == "to-full-moon":
-        # Calculating days to next full/new moon
-        cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
-        print(f"{days_plural(cntdwn)} until next Full Moon")
-    elif countdown == "to-new-moon":
-        cntdwn2 = math.floor(LUNAR_PHASE_LENGTH - phase)
-        print(f"{days_plural(cntdwn2)} until next New Moon")
+    info.print_ascii_art()
+    info.print_today_is()
+    info.print_countdown(phase)
 
 
 if __name__ == "__main__":
