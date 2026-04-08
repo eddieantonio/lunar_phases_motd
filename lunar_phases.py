@@ -1,6 +1,16 @@
 import time 
 import math
 
+from dataclasses import dataclass
+
+@dataclass
+class Phase:
+    name: str
+    upper_boundary: float
+    countdown: str = None
+    today_is: str = "normal"
+    
+
 SECONDS_IN_DAY = 86400
 JULIAN_DATE_UNIX_EPOCH = 2440587.5
 JULIAN_DATE_MARCH_NEW_MOON = 2461118.3097222
@@ -102,50 +112,14 @@ New moon: 28.5-29.5
 """
 
 PHASE_INFO = [
-    {
-        "name": "WAXING CRESCENT",
-        "upper_boundary": 6.375,
-        "countdown": "to-full-moon",
-    },
-    {
-        "name": "FIRST QUARTER",
-        "upper_boundary": 7.375,
-        "countdown": "to-full-moon",
-        "today_is": "quarter"
-    },
-    {
-        "name": "WAXING GIBBOUS",
-        "upper_boundary": 13.75,
-        "countdown": "to-full-moon",
-    },
-    {
-        "name": "FULL MOON",
-        "upper_boundary": 14.75,
-        "action": "full-moon",
-        "today_is": "special"
-    },
-    {
-        "name": "WANING GIBBOUS",
-        "upper_boundary": 21.125,
-        "countdown": "to-new-moon",
-    },
-    {
-        "name": "LAST QUARTER",
-        "upper_boundary": 22.125,
-        "countdown": "to-new-moon",
-        "today_is": "quarter"
-    },
-    {
-        "name": "WANING CRESCENT",
-        "upper_boundary": 28.5,
-        "countdown": "to-new-moon",
-    },
-    {
-        "name": "NEW MOON",
-        "upper_boundary": LUNAR_PHASE_LENGTH,
-        "countdown": "new-moon",
-        "today_is": "special"
-    },
+    Phase("WAXING CRESCENT", 6.375, countdown="to-full-moon"),
+    Phase("FIRST QUARTER", 7.375, countdown="to-full-moon", today_is="quarter"),
+    Phase("WAXING GIBBOUS", 13.75, countdown="to-full-moon"),
+    Phase("FULL MOON", 14.75, today_is="special"),
+    Phase("WANING GIBBOUS", 21.125, countdown="to-new-moon"),
+    Phase("LAST QUARTER", 22.125, countdown="to-new-moon", today_is="quarter"),
+    Phase("WANING CRESCENT", 28.5, countdown="to-new-moon"),
+    Phase("NEW MOON", LUNAR_PHASE_LENGTH, countdown="new-moon", today_is="special"),
 ]
 
 def days_plural(number):
@@ -162,20 +136,20 @@ def print_motd(phase=None):
 
     # Assigning a physical phase to the calculated date 
     lo = 0
-    lo += phase >= PHASE_INFO[lo + 3]["upper_boundary"] and 4
-    lo += phase >= PHASE_INFO[lo + 1]["upper_boundary"] and 2
-    lo += phase >= PHASE_INFO[lo]["upper_boundary"] and 1
+    lo += phase >= PHASE_INFO[lo + 3].upper_boundary and 4
+    lo += phase >= PHASE_INFO[lo + 1].upper_boundary and 2
+    lo += phase >= PHASE_INFO[lo + 0].upper_boundary and 1
     info = PHASE_INFO[lo]
 
     # printing ASCII, phase name, and countdown to next new/full moon
-    name = info["name"]
+    name = info.name
 
     # Print the moon!
     ascii_art = phases_dict[name]
     print(ascii_art)
 
     # Print the first line of the message:
-    today_is_style = info.get("today_is", "normal")
+    today_is_style = info.today_is
     if today_is_style == "normal":
         print(f"Today the moon is a {name}")
     elif today_is_style == "quarter":
@@ -184,7 +158,7 @@ def print_motd(phase=None):
         print(f"Today is the {name}!")
 
     # Print the countdown (if present)
-    countdown = info.get("countdown")
+    countdown = info.countdown
     if countdown == "to-full-moon":
         # Calculating days to next full/new moon
         cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
