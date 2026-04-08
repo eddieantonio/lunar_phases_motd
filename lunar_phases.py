@@ -13,7 +13,6 @@ def lunar_phase():
     phase_calculation = (current_julian_date - JULIAN_DATE_MARCH_NEW_MOON) % LUNAR_PHASE_LENGTH
     return phase_calculation
 
-phase = lunar_phase()
 
 phases_dict = {
 "NEW MOON" : 
@@ -101,6 +100,9 @@ Last quarter: 21.125-22.125
 Waning crescent: 22.125-28.5
 New moon: 28.5-29.5
 """
+
+# Calculate today's lunar phase
+phase = lunar_phase()
 
 # Calculating days to next full/new moon
 cntdwn = math.floor(LUNAR_PHASE_HALFPOINT - phase)
