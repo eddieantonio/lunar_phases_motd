@@ -2,6 +2,7 @@ import time
 import math
 from textwrap import dedent
 
+# Constants
 SECONDS_IN_DAY = 86400
 JULIAN_DATE_UNIX_EPOCH = 2440587.5
 JULIAN_DATE_MARCH_NEW_MOON = 2461118.3097222
@@ -10,18 +11,28 @@ LUNAR_PHASE_HALFPOINT = 14.765
 
 
 def lunar_phase():
+    """
+    Calculates where today falls inside a lunar phase.
+    """
     current_julian_date = time.time() / SECONDS_IN_DAY + JULIAN_DATE_UNIX_EPOCH
     phase_calculation = (
         current_julian_date - JULIAN_DATE_MARCH_NEW_MOON
     ) % LUNAR_PHASE_LENGTH
-    """Function calculates where today falls inside a lunar phase."""
     return phase_calculation
 
 
 class MoonPhase:
+    """
+    Superclass for all phases of the moon. This super-class:
+     - automatically determines the name of the phase of the moon
+     - extracts the ASCII art from the docstring
+     - stores all phases of the moon in a SORTED array
+     - provides a few defaults that are useful for printing the message
+    """
+
     PHASES = []
 
-    # Default attributes:
+    # Default attributes for all phases of the moon:
     today_is = "normal"
     countdown = None
 
@@ -39,6 +50,9 @@ def camel_case_to_capitalized_string(name):
             split_pos = i + 1
             break
     return name[:split_pos] + " " + name[split_pos:]
+
+
+# == Phases of the moon =====================================================
 
 
 class WaxingCrescent(MoonPhase):
@@ -154,33 +168,22 @@ class NewMoon(MoonPhase):
     today_is = "special"
 
 
-# boundary points for lunar phase
-"""
-Waxing crescent: 0-6.375
-First quarter: 6.375-7.375
-Waxing gibbous: 7.375-13.75
-Full moon: 13.75-14.75
-Waning Gibbous: 14.75 - 21.125
-Last quarter: 21.125-22.125
-Waning crescent: 22.125-28.5
-New moon: 28.5-29.5
-"""
-
-
 def days_plural(number):
     word = "day" if number == 1 else "days"
     return f"{number} {word}"
-
-
-# Remove the # if you want to print the output of the function above
-# print(phase)
 
 
 def print_motd(phase=None):
     if phase is None:
         phase = lunar_phase()
 
-    # Assigning a physical phase to the calculated date
+    # Figure out the phase of the moon using a binary search.
+    # This is a special case of binary search where:
+    #  - there are exact 2**3 == 8 options
+    #  - we can't fail (we will always whittle down 8 options to one)
+    # We will always get an answer in EXACTLY three iterations.  Due to MATH it also
+    # means we just need to keep track of is the lower-bound, which we adjust by
+    # precomputed constants in each iteration.
     PHASES = MoonPhase.PHASES
     lo = 0
     lo += 4 if phase >= PHASES[lo + 3].upper_boundary else 0
