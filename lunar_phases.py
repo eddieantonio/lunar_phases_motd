@@ -21,12 +21,14 @@ def lunar_phase():
 class MoonPhase:
     PHASES = []
 
+    # Default attributes:
+    today_is = "normal"
+    countdown = None
+
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         cls.name = camel_case_to_capitalized_string(cls.__name__)
         cls.ascii_art = dedent(cls.__doc__)
-        cls.today_is = "normal"
-        cls.countdown = None
         cls.PHASES.append(cls)
 
 
@@ -93,7 +95,6 @@ class FullMoon(MoonPhase):
     """
 
     upper_boundary = 14.75
-    action = "full-moon"
     today_is = "special"
 
 
@@ -150,7 +151,6 @@ class NewMoon(MoonPhase):
     jgs   `-...-'
     """
 
-    countdown = "new-moon"
     today_is = "special"
 
 
