@@ -18,22 +18,16 @@ def lunar_phase():
     return phase_calculation
 
 
-PHASES = []
+class MoonPhase:
+    PHASES = []
 
-
-class MoonPhaseMeta(type):
-    """
-    Metaclass automatically processes the name and __doc__.
-    """
-
-    def __new__(cls, name, bases, dct):
-        phase = super().__new__(cls, name, bases, dct)
-        phase.name = camel_case_to_capitalized_string(name)
-        phase.ascii_art = dedent(dct["__doc__"])
-        phase.today_is = "normal"
-        phase.countdown = None
-        PHASES.append(phase)
-        return phase
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls.name = camel_case_to_capitalized_string(cls.__name__)
+        cls.ascii_art = dedent(cls.__doc__)
+        cls.today_is = "normal"
+        cls.countdown = None
+        cls.PHASES.append(cls)
 
 
 def camel_case_to_capitalized_string(name):
@@ -45,7 +39,7 @@ def camel_case_to_capitalized_string(name):
     return name[:split_pos] + " " + name[split_pos:]
 
 
-class WaxingCrescent(metaclass=MoonPhaseMeta):
+class WaxingCrescent(MoonPhase):
     """
            _..._
          .'   `::.
@@ -59,7 +53,7 @@ class WaxingCrescent(metaclass=MoonPhaseMeta):
     countdown = "to-full-moon"
 
 
-class FirstQuarter(metaclass=MoonPhaseMeta):
+class FirstQuarter(MoonPhase):
     """
            _..._
          .'  ::::.
@@ -74,7 +68,7 @@ class FirstQuarter(metaclass=MoonPhaseMeta):
     today_is = "quarter"
 
 
-class WaxingGibbous(metaclass=MoonPhaseMeta):
+class WaxingGibbous(MoonPhase):
     """
            _..._
          .' .::::.
@@ -88,7 +82,7 @@ class WaxingGibbous(metaclass=MoonPhaseMeta):
     countdown = "to-full-moon"
 
 
-class FullMoon(metaclass=MoonPhaseMeta):
+class FullMoon(MoonPhase):
     """
            _..._
          .:::::::.
@@ -103,7 +97,7 @@ class FullMoon(metaclass=MoonPhaseMeta):
     today_is = "special"
 
 
-class WaningGibbous(metaclass=MoonPhaseMeta):
+class WaningGibbous(MoonPhase):
     """
            _..._
          .::::. `.
@@ -117,7 +111,7 @@ class WaningGibbous(metaclass=MoonPhaseMeta):
     countdown = "to-new-moon"
 
 
-class LastQuarter(metaclass=MoonPhaseMeta):
+class LastQuarter(MoonPhase):
     """
            _..._
          .::::  `.
@@ -132,7 +126,7 @@ class LastQuarter(metaclass=MoonPhaseMeta):
     today_is = "quarter"
 
 
-class WaningCrescent(metaclass=MoonPhaseMeta):
+class WaningCrescent(MoonPhase):
     """
            _..._
          .::'   `.
@@ -146,7 +140,7 @@ class WaningCrescent(metaclass=MoonPhaseMeta):
     countdown = "to-new-moon"
 
 
-class NewMoon(metaclass=MoonPhaseMeta):
+class NewMoon(MoonPhase):
     """
            _..._
          .'     `.
@@ -187,6 +181,7 @@ def print_motd(phase=None):
         phase = lunar_phase()
 
     # Assigning a physical phase to the calculated date
+    PHASES = MoonPhase.PHASES
     lo = 0
     lo += 4 if phase >= PHASES[lo + 3].upper_boundary else 0
     lo += 2 if phase >= PHASES[lo + 1].upper_boundary else 0
