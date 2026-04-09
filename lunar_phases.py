@@ -162,9 +162,9 @@ def print_motd(phase=None):
 
     # Assigning a physical phase to the calculated date 
     lo = 0
-    lo += phase >= PHASE_INFO[lo + 3]["upper_boundary"] and 4
-    lo += phase >= PHASE_INFO[lo + 1]["upper_boundary"] and 2
-    lo += phase >= PHASE_INFO[lo]["upper_boundary"] and 1
+    lo += 4 if phase >= PHASE_INFO[lo + 3]["upper_boundary"] else 0
+    lo += 2 if phase >= PHASE_INFO[lo + 1]["upper_boundary"] else 0
+    lo += 1 if phase >= PHASE_INFO[lo + 0]["upper_boundary"] else 0
     info = PHASE_INFO[lo]
 
     # printing ASCII, phase name, and countdown to next new/full moon
