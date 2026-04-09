@@ -1,4 +1,4 @@
-import time 
+import time
 import math
 from textwrap import dedent
 
@@ -8,19 +8,24 @@ JULIAN_DATE_MARCH_NEW_MOON = 2461118.3097222
 LUNAR_PHASE_LENGTH = 29.53
 LUNAR_PHASE_HALFPOINT = 14.765
 
+
 def lunar_phase():
-    current_julian_date = time.time() / SECONDS_IN_DAY + JULIAN_DATE_UNIX_EPOCH 
-    phase_calculation = (current_julian_date - JULIAN_DATE_MARCH_NEW_MOON) % LUNAR_PHASE_LENGTH
+    current_julian_date = time.time() / SECONDS_IN_DAY + JULIAN_DATE_UNIX_EPOCH
+    phase_calculation = (
+        current_julian_date - JULIAN_DATE_MARCH_NEW_MOON
+    ) % LUNAR_PHASE_LENGTH
     """Function calculates where today falls inside a lunar phase."""
     return phase_calculation
 
 
 PHASES = []
 
+
 class MoonPhaseMeta(type):
     """
     Metaclass automatically processes the name and __doc__.
     """
+
     def __new__(cls, name, bases, dct):
         phase = super().__new__(cls, name, bases, dct)
         phase.name = camel_case_to_capitalized_string(name)
@@ -33,7 +38,7 @@ class MoonPhaseMeta(type):
 
 def camel_case_to_capitalized_string(name):
     for i, c in enumerate(name[1:]):
-        if 'A' <= c <= 'Z':
+        if "A" <= c <= "Z":
             # Account for chopping of the first number of this loop:
             split_pos = i + 1
             break
@@ -42,105 +47,115 @@ def camel_case_to_capitalized_string(name):
 
 class WaxingCrescent(metaclass=MoonPhaseMeta):
     """
-           _..._     
-         .'   `::.    
-        :       :::    
-        :       :::  
-        `.     .::'  
-    jgs   `-..:'' 
+           _..._
+         .'   `::.
+        :       :::
+        :       :::
+        `.     .::'
+    jgs   `-..:''
     """
+
     upper_boundary = 6.375
     countdown = "to-full-moon"
 
+
 class FirstQuarter(metaclass=MoonPhaseMeta):
     """
-           _..._     
-         .'  ::::.    
-        :    ::::::    
-        :    ::::::  
-        `.   :::::'  
-    jgs   `-.::''   
+           _..._
+         .'  ::::.
+        :    ::::::
+        :    ::::::
+        `.   :::::'
+    jgs   `-.::''
     """
+
     upper_boundary = 7.375
     countdown = "to-full-moon"
     today_is = "quarter"
 
+
 class WaxingGibbous(metaclass=MoonPhaseMeta):
-    """ 
-           _..._     
-         .' .::::.    
-        :  ::::::::    
-        :  ::::::::  
-        `. '::::::'  
-    jgs   `-.::''  
     """
+           _..._
+         .' .::::.
+        :  ::::::::
+        :  ::::::::
+        `. '::::::'
+    jgs   `-.::''
+    """
+
     upper_boundary = 13.75
     countdown = "to-full-moon"
 
 
 class FullMoon(metaclass=MoonPhaseMeta):
     """
-           _..._     
-         .:::::::.    
-        :::::::::::   
-        ::::::::::: 
-        `:::::::::'  
-    jgs   `':::'' 
+           _..._
+         .:::::::.
+        :::::::::::
+        :::::::::::
+        `:::::::::'
+    jgs   `':::''
     """
+
     upper_boundary = 14.75
     action = "full-moon"
     today_is = "special"
 
 
 class WaningGibbous(metaclass=MoonPhaseMeta):
-    """ 
-           _..._     
-         .::::. `.    
-        :::::::.  :    
-        ::::::::  :  
-        `::::::' .'  
+    """
+           _..._
+         .::::. `.
+        :::::::.  :
+        ::::::::  :
+        `::::::' .'
     jgs   `'::'-'
-     """
+    """
+
     upper_boundary = 21.125
     countdown = "to-new-moon"
 
 
 class LastQuarter(metaclass=MoonPhaseMeta):
     """
-           _..._     
-         .::::  `.    
-        ::::::    :    
-        ::::::    :  
-        `:::::   .'  
-    jgs   `'::.-'   
+           _..._
+         .::::  `.
+        ::::::    :
+        ::::::    :
+        `:::::   .'
+    jgs   `'::.-'
     """
+
     upper_boundary = 22.125
     countdown = "to-new-moon"
     today_is = "quarter"
 
 
 class WaningCrescent(metaclass=MoonPhaseMeta):
-    """  
-           _..._     
-         .::'   `.    
-        :::       :    
-        :::       :  
-        `::.     .'  
+    """
+           _..._
+         .::'   `.
+        :::       :
+        :::       :
+        `::.     .'
     jgs   `':..-'
     """
+
     upper_boundary = 28.5
     countdown = "to-new-moon"
 
 
 class NewMoon(metaclass=MoonPhaseMeta):
     """
-           _..._     
-         .'     `.    
-        :         :    
-        :         :  
-        `.       .'  
-    jgs   `-...-'  
+           _..._
+         .'     `.
+        :         :
+        :         :
+        `.       .'
+    jgs   `-...-'
     """
+
     countdown = "new-moon"
     today_is = "special"
 
@@ -157,6 +172,7 @@ Waning crescent: 22.125-28.5
 New moon: 28.5-29.5
 """
 
+
 def days_plural(number):
     word = "day" if number == 1 else "days"
     return f"{number} {word}"
@@ -165,11 +181,12 @@ def days_plural(number):
 # Remove the # if you want to print the output of the function above
 # print(phase)
 
+
 def print_motd(phase=None):
     if phase is None:
         phase = lunar_phase()
 
-    # Assigning a physical phase to the calculated date 
+    # Assigning a physical phase to the calculated date
     lo = 0
     lo += 4 if phase >= PHASES[lo + 3].upper_boundary else 0
     lo += 2 if phase >= PHASES[lo + 1].upper_boundary else 0
